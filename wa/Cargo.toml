@@ -1,0 +1,20 @@
+[package]
+name = "wa"
+version = "0.1.0"
+authors = ["Shady Khalifa <shekohex@gmail.com>"]
+edition = "2018"
+
+[dependencies]
+aes = "^0.4"
+block-modes = "^0.5"
+hmac = "^0.8"
+crypto-mac = { version = "^0.8", features = ["std"] }
+log = "^0.4"
+sha2 = "^0.9"
+thiserror = "^1.0"
+bytes = "^0.5"
+prost = "^0.6"
+byteorder = "^1.3"
+
+[build-dependencies]
+prost-build = "^0.6"

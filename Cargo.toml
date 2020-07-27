@@ -1,0 +1,6 @@
+[workspace]
+members = ["wa", "bin/wadump"]
+
+[profile.release]
+lto = true
+codegen-units = 1

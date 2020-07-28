@@ -8,7 +8,6 @@ on:
 jobs:
   create_release:
     - name: Create Release
-        id: create_release
         uses: actions/create-release@v1
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
@@ -52,7 +51,7 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
-          upload_url: ${{ jobs.create_release.create_release.outputs.upload_url }}
+          upload_url: ${{ jobs.create_release.outputs.upload_url }}
           asset_path: target/release/${{ matrix.artifact_name }}
           asset_name: ${{ matrix.asset_name }}
           asset_content_type: 'application/octet-stream'

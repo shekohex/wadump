@@ -29,34 +29,7 @@ struct Args {
 
 fn main() -> Result<(), AnyError> {
     let args: Args = argh::from_env();
-    let enc_key_service = Keyring::new(SERVICE_NAME, ENC_KEY_NAME);
-    let mac_key_service = Keyring::new(SERVICE_NAME, MAC_KEY_NAME);
-
-    if args.reset {
-        enc_key_service.delete_password()?;
-        mac_key_service.delete_password()?;
-        return Ok(());
-    }
-
-    let enc_key = match enc_key_service.get_password() {
-        Ok(key) => key,
-        Err(_) => {
-            let key = rpassword::prompt_password_stdout(
-                "Enter Encryption Key (base64):",
-            )?;
-            enc_key_service.set_password(&key)?;
-            key
-        },
-    };
-    let mac_key = match mac_key_service.get_password() {
-        Ok(key) => key,
-        Err(_) => {
-            let key =
-                rpassword::prompt_password_stdout("Enter MAC Key (base64):")?;
-            mac_key_service.set_password(&key)?;
-            key
-        },
-    };
+    let (enc_key, mac_key) = get_keys(&args)?;
 
     let enc = base64::decode(enc_key)?;
     let mac = base64::decode(mac_key)?;
@@ -100,6 +73,50 @@ fn main() -> Result<(), AnyError> {
     }
 
     Ok(())
+}
+
+fn get_keys(args: &Args) -> Result<(String, String), AnyError> {
+    let enc_key_env = std::env::var("WADUMP_ENC_KEY");
+    let mac_key_env = std::env::var("WADUMP_MAC_KEY");
+    match (enc_key_env, mac_key_env) {
+        (Ok(enc_key), Ok(mac_key)) => Ok((enc_key, mac_key)),
+        _ => {
+            // Read them from keyring
+            get_keys_from_keyring(args)
+        },
+    }
+}
+
+fn get_keys_from_keyring(args: &Args) -> Result<(String, String), AnyError> {
+    let enc_key_service = Keyring::new(SERVICE_NAME, ENC_KEY_NAME);
+    let mac_key_service = Keyring::new(SERVICE_NAME, MAC_KEY_NAME);
+
+    if args.reset {
+        enc_key_service.delete_password()?;
+        mac_key_service.delete_password()?;
+    }
+
+    let enc_key = match enc_key_service.get_password() {
+        Ok(key) => key,
+        Err(_) => {
+            let key = rpassword::prompt_password_stdout(
+                "Enter Encryption Key (base64):",
+            )?;
+            enc_key_service.set_password(&key)?;
+            key
+        },
+    };
+    let mac_key = match mac_key_service.get_password() {
+        Ok(key) => key,
+        Err(_) => {
+            let key =
+                rpassword::prompt_password_stdout("Enter MAC Key (base64):")?;
+            mac_key_service.set_password(&key)?;
+            key
+        },
+    };
+
+    Ok((enc_key, mac_key))
 }
 
 fn handle_node_list(nodes: &[Node]) -> Result<(), AnyError> {

@@ -94,7 +94,17 @@ WebMessageInfo {
 
 ## Install
 
-Currently there is no other way than clone the code and compiling it localy using cargo, in the future maybe will be a CI/CD and github releases for that.
+1. Easy way
+
+```bash
+$ curl -LSfs https://raw.githubusercontent.com/shekohex/wadump/master/install.sh | sh -s -- -f
+```
+
+> in WSL it fallback to windows
+
+2. Github Releases [here](https://github.com/shekohex/wadump/releases)
+
+3. Or if you want to build it localy
 
 ```bash
 $ git clone https://github.com/shekohex/wadump.git

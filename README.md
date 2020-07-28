@@ -139,6 +139,18 @@ Options:
 
 - Open an Issue :)
 
+## Contributing
+
+Want to join us? Check out our ["Contributing" guide][contributing] and take a
+look at some of these issues:
+
+- [Issues labeled "good first issue"][good-first-issue]
+- [Issues labeled "help wanted"][help-wanted]
+
+[contributing]: https://github.com/shekohex/wadump/blob/master/.github/CONTRIBUTING.md
+[good-first-issue]: https://github.com/shekohex/wadump/labels/good%20first%20issue
+[help-wanted]: https://github.com/shekohex/wadump/labels/help%20wanted
+
 ## Safety
 
 This crate uses `#![deny(unsafe_code)]` to ensure everything is implemented in

@@ -94,17 +94,9 @@ WebMessageInfo {
 
 ## Install
 
-1. Easy way
+1. Github Releases [here](https://github.com/shekohex/wadump/releases)
 
-```bash
-$ curl -LSfs https://raw.githubusercontent.com/shekohex/wadump/master/install.sh | sh -s -- -f
-```
-
-> in WSL it fallback to windows
-
-2. Github Releases [here](https://github.com/shekohex/wadump/releases)
-
-3. Or if you want to build it localy
+2. Or if you want to build it localy
 
 ```bash
 $ git clone https://github.com/shekohex/wadump.git

@@ -8,6 +8,7 @@ use thiserror::Error;
 
 mod binary;
 mod constants;
+#[rustfmt::skip]
 mod proto;
 
 pub use binary::node::{Node, NodeContent};

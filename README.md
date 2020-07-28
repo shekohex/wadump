@@ -120,8 +120,8 @@ Options:
   --help            display usage information
 ```
 
-In the first usage it will ask you about the `Encryption Key` and `MAC Key` and will be stored in your OS Keychain, if you don't want to use the Keychain
-you could also set the `WADUMP_ENC_KEY` and `WADUMP_MAC_KEY` environment variables and it will use them instead (even if there is keys stored in the keychain)
+In the first usage, it will ask you about the `Encryption Key` and `MAC Key` and will be stored in your OS Keychain, if you don't want to use the Keychain
+you could also set the `WADUMP_ENC_KEY` and `WADUMP_MAC_KEY` environment variables and it will use them instead (even if there are keys stored in the keychain)
 
 ## FAQ
 

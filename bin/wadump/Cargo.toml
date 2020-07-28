@@ -7,7 +7,6 @@ edition = "2018"
 [dependencies]
 wa = { path = "../../wa" }
 prost = "^0.6"
-anyhow = "^1"
 keyring = "^0.9"
 rpassword = "^4"
 base64 = "^0.12"

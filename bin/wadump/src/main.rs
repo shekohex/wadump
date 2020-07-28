@@ -1,6 +1,5 @@
 #![deny(unsafe_code)]
 
-use std::error::Error;
 use argh::FromArgs;
 use keyring::Keyring;
 use prost::Message;
@@ -10,6 +9,8 @@ use wa::{Node, NodeContent};
 const SERVICE_NAME: &str = "wadump";
 const ENC_KEY_NAME: &str = "enc_key";
 const MAC_KEY_NAME: &str = "mac_key";
+
+type AnyError = Box<dyn std::error::Error>;
 
 /// CLI Tool to dump WhatsApp Packets
 #[derive(Debug, FromArgs)]
@@ -26,7 +27,7 @@ struct Args {
     message: Option<String>,
 }
 
-fn main() -> Result<(), Box<dyn Error>> {
+fn main() -> Result<(), AnyError> {
     let args: Args = argh::from_env();
     let enc_key_service = Keyring::new(SERVICE_NAME, ENC_KEY_NAME);
     let mac_key_service = Keyring::new(SERVICE_NAME, MAC_KEY_NAME);
@@ -101,7 +102,7 @@ fn main() -> Result<(), Box<dyn Error>> {
     Ok(())
 }
 
-fn handle_node_list(nodes: &[Node]) -> Result<(), Box<dyn Error>> {
+fn handle_node_list(nodes: &[Node]) -> Result<(), AnyError> {
     for node in nodes {
         match node.desc.as_ref() {
             "message" => {
@@ -116,7 +117,7 @@ fn handle_node_list(nodes: &[Node]) -> Result<(), Box<dyn Error>> {
     Ok(())
 }
 
-fn handle_message(content: &NodeContent) -> Result<(), Box<dyn Error>> {
+fn handle_message(content: &NodeContent) -> Result<(), AnyError> {
     if let NodeContent::Binary(ref content) = content {
         let msg = wa::WebMessageInfo::decode(content.as_slice())?;
         println!("{:#?}", msg);

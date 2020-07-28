@@ -5,6 +5,10 @@ main() {
     if [ $TRAVIS_OS_NAME = linux ]; then
         target=x86_64-unknown-linux-musl
         sort=sort
+        sudo apt-get -q -y update
+        echo apt-get update done
+        sudo apt-get -q -y install libdbus-1-dev
+        echo libdbus installed
     else
         target=x86_64-apple-darwin
         sort=gsort  # for `sort --sort-version`, from brew's coreutils.

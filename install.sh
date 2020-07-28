@@ -11,11 +11,8 @@ Usage:
 
 Options:
     -h, --help      Display this message
-    --git SLUG      Get the crate from "https://github/$SLUG"
     -f, --force     Force overwriting an existing binary
-    --crate NAME    Name of the crate to install (default <repository name>)
     --tag TAG       Tag (version) of the crate to install (default <latest release>)
-    --target TARGET Install the release compiled for $TARGET (default <`rustc` host>)
     --to LOCATION   Where to install the binary (default ~/.cargo/bin)
 EOF
 }
@@ -44,18 +41,13 @@ need() {
 }
 
 force=false
+crate=wadump
+git=shekohex/wadump
+
 while test $# -gt 0; do
     case $1 in
-        --crate)
-            crate=$2
-            shift
-            ;;
         --force | -f)
             force=true
-            ;;
-        --git)
-            git=$2
-            shift
             ;;
         --help | -h)
             help
@@ -63,10 +55,6 @@ while test $# -gt 0; do
             ;;
         --tag)
             tag=$2
-            shift
-            ;;
-        --target)
-            target=$2
             shift
             ;;
         --to)
@@ -78,6 +66,19 @@ while test $# -gt 0; do
     esac
     shift
 done
+
+case "$OSTYPE" in
+  darwin*)  target=x86_64-apple-darwin ;; 
+  linux*)   target=x86_64-unknown-linux-gnu ;;
+  msys*)    target=x86_64-pc-windows-msvc ;;
+  *)
+            if [ -z "$IS_WSL" ]; then
+                target=x86_64-pc-windows-msvc
+            else
+                echo "Unknown Target"
+            fi
+            ;;
+esac
 
 # Dependencies
 need basename
@@ -101,9 +102,6 @@ if [ -z $target ]; then
     need rustc
 fi
 
-if [ -z $git ]; then
-    err 'must specify a git repository using `--git`. Example: `install.sh --git japaric/cross`'
-fi
 
 url="https://github.com/$git"
 say_err "GitHub repository: $url"

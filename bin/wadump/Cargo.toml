@@ -8,6 +8,6 @@ edition = "2018"
 wa = { path = "../../wa" }
 prost = "^0.6"
 keyring = "^0.9"
-rpassword = "^4"
+rpassword = "^7"
 base64 = "^0.12"
 argh = "^0.1"
